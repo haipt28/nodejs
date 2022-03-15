@@ -1,0 +1,24 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "proxy": "http://localhost:8080/api/tutorials",
+    "homepage": "http://localhost:8080/api/tutorials",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "build": "^0.1.4",
+        "cors": "^2.8.5",
+        "express": "^4.17.3",
+        "http-proxy-middleware": "^2.0.4",
+        "mssql": "^8.0.2",
+        "nodemon": "^2.0.15",
+        "sequelize": "^6.17.0",
+        "tedious": "^14.3.0"
+    }
+}
