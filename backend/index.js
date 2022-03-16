@@ -4,8 +4,10 @@ const app = express();
 var corsOptions = {
     // url frontend
     origin: "http://localhost:4200"
+        // origin: "http://localhost:5002"
 
 };
+var virtualDirPath = process.env.virtualDirPath || '';
 app.use(function(req, res, next) {
     //Enabling CORS
     res.header("Access-Control-Allow-Origin", "*");
@@ -27,6 +29,7 @@ app.get("/", (req, res) => {
     // res.json({ message: "Welcome to bezkoder application." });
     res.sendFile(process.cwd() + "../../AngularCRUD/dist/angular-crud/index.html")
 });
+require("./app/routes/test.routes")(app);
 require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests

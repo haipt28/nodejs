@@ -1,23 +1,23 @@
 const db = require("../models");
-const Tutorial = db.tutorials;
+const Test = db.tests;
 const Op = db.Sequelize.Op;
-// Create and Save a new Tutorial
+// Create and Save a new test
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    if (!req.body.name) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
         return;
     }
     // Create a Tutorial
-    const tutorial = {
-        title: req.body.title,
+    const test = {
+        name: req.body.name,
         description: req.body.description,
         published: req.body.published ? req.body.published : false
     };
-    // Save Tutorial in the database
-    Tutorial.create(tutorial)
+    // Save test in the database
+    Test.create(test)
         .then(data => {
             res.send(data);
         })
@@ -27,107 +27,96 @@ exports.create = (req, res) => {
             });
         });
 };
-// Retrieve all Tutorials from the database.
+// Retrieve all tests from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? {
-        title: {
-            [Op.like]: `%${title}%`
+    const name = req.query.name;
+    var condition = name ? {
+        name: {
+            [Op.like]: `%${name}%`
         }
     } : null;
-    Tutorial.findAll({ where: condition })
+    Test.findAll({ where: condition })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving tutorials."
+                message: err.message || "Some error occurred while retrieving tests."
             });
         });
 };
-// Find a single Tutorial with an id
+// Find a single test with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
-    Tutorial.findByPk(id)
+    Test.findByPk(id)
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Tutorial with id=" + id
+                message: "Error retrieving test with id=" + id
             });
         });
 };
-// Update a Tutorial by the id in the request
+// Update a test by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
-    Tutorial.update(req.body, {
+    Test.update(req.body, {
             where: { id: id }
         })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Tutorial was updated successfully."
+                    message: "test was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+                    message: `Cannot update test with id=${id}. Maybe test was not found or req.body is empty!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Tutorial with id=" + id
+                message: "Error updating test with id=" + id
             });
         });
 };
-// Delete a Tutorial with the specified id in the request
+// Delete a test with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
-    Tutorial.destroy({
+    Test.destroy({
             where: { id: id }
         })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Tutorial was deleted successfully!"
+                    message: "test was deleted successfully!"
                 });
             } else {
                 res.send({
-                    message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+                    message: `Cannot delete test with id=${id}. Maybe test was not found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete Tutorial with id=" + id
+                message: "Could not delete test with id=" + id
             });
         });
 };
-// Delete all Tutorials from the database.
+// Delete all tests from the database.
 exports.deleteAll = (req, res) => {
-    Tutorial.destroy({
+    Test.destroy({
             where: {},
             truncate: false
         })
         .then(nums => {
-            res.send({ message: `${nums} Tutorials were deleted successfully!` });
+            res.send({ message: `${nums} tests were deleted successfully!` });
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while removing all tutorials."
+                message: err.message || "Some error occurred while removing all tests."
             });
         });
 };
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {
-    Tutorial.findAll({ where: { published: true } })
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving tutorials."
-            });
-        });
-};
+// Find all published tests
